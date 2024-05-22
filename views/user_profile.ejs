@@ -1,0 +1,13 @@
+<link rel="stylesheet" href="/css/user.css">
+
+<h1>
+    <%=title%> page
+</h1>
+<p> name : <%=user.name%>
+</p>
+<p>email : <%= user %>
+</p>
+
+<form action="/user/sign-out" method="post">
+    <button type="submit">Sign Out</button>
+</form>
