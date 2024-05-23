@@ -63,6 +63,7 @@ passport.setAuthenticatedUser = (req, res, next) => {
         // req.user contains the current signed-in user from the session cookie
         res.locals.user = req.user; // Set the authenticated user to res.locals.user
     }
+    next();
 };
 
 
