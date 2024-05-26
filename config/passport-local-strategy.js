@@ -1,9 +1,10 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const User = require("../models/userschema");
+const bcrypt = require("bcrypt");
 
 // Authentication using passport
-passport.use(new LocalStrategy(
+passport.use(new LocalStrategy( // we need to tell passsport user this stratagy
     {
         usernameField: 'email' // Specify that 'email' should be used instead of 'username'
     },
@@ -16,10 +17,9 @@ passport.use(new LocalStrategy(
             }
 
             // Check if the password matches
-            const passwordMatch = user.password === password;
-
+            const passwordMatch = await bcrypt.compare(password, user.password);
             if (passwordMatch) {
-                return done(null, user); // Authentication successful
+                return done(null, user); // Authentication successful / return user to serializeUser
             } else {
                 console.log("Invalid email/password");
                 return done(null, false); // Invalid password
@@ -30,21 +30,23 @@ passport.use(new LocalStrategy(
     }
 ));
 
-// Serialize user to set cookie in the browser
+// Serialize use to set cookie in the browser (express-session library using for encrypted)
 passport.serializeUser((user, done) => {
-    done(null, user.id);
+    done(null, user.id);  // set only user _id
 });
+
+
+
 
 // Deserialize user to get cookie from the browser
 passport.deserializeUser(async (id, done) => {
     try {
-        const user = await User.findById(id);
+        const user = await User.findById(id); // User.findById(id) fetches the user document from the users collection in MongoDB where the _id matches the provided id.
         done(null, user);
     } catch (error) {
         done(error);
     }
 });
-
 
 
 // Check if the user is authenticated
@@ -56,6 +58,7 @@ passport.checkAuthentication = (req, res, next) => {
     // If the user is not signed in, redirect to the sign-in page
     return res.redirect("/user/signin");
 };
+
 
 //set the user
 passport.setAuthenticatedUser = (req, res, next) => {

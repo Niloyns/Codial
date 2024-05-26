@@ -9,6 +9,7 @@ const router = require("./routes/router");
 // const user = require("./routes/user");
 const db = require("./config/mongoose");
 const passportLocal = require("./config/passport-local-strategy");
+const MongoStore = require("connect-mongo"); 
 
 const app = express();
 
@@ -30,20 +31,26 @@ app.set("layout extractScripts", true); // Extract scripts from subpages into la
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// Session middleware
+// Session middleware takes session cookie and encrypted
 app.use(session({
-    name: "codial",
+    name: "codial", //cookie name
     secret: "niloyns", // TODO: Change the secret before production
     resave: false,
-    saveUninitialized: false, // Add this option to avoid the deprecation warning
+    saveUninitialized: false, //
     cookie: {
         maxAge: 1000 * 60 * 100 // Cookie expiration time in milliseconds
-    }
+    },
+    //mongostore store the session cookie in the DB
+    store: MongoStore.create({
+        mongoUrl: "mongodb://localhost/codial_dev",
+        autoRemove: "disabled"
+    })
 }));
 
 // Passport middleware for authentication
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.initialize()); //It sets up Passport to work with the Express app.
+app.use(passport.session()); // passport use session and encrypted serelizing/decerilise data
+app.use(passport.setAuthenticatedUser);
 
 // Routes
 app.use("/", router);

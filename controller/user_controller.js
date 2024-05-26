@@ -1,5 +1,6 @@
 const User = require("../models/userschema");
 const bcrypt = require("bcrypt");
+const passport = require("../config/passport-local-strategy")
 
 // Render user profile
 module.exports.profile = async (req, res) => {
@@ -10,13 +11,20 @@ module.exports.profile = async (req, res) => {
 
 // Render sign up page
 module.exports.signup = (req, res) => {
+  if (req.isAuthenticated()) { // Corrected this line
+    return res.redirect("/user/profile");
+  }
   res.render("user_signup", { title: "Sign Up" });
 };
 
 // Render sign in page
 module.exports.signin = (req, res) => {
+  if (req.isAuthenticated()) { // Corrected this line
+    return res.redirect("/user/profile");
+  }
   res.render("user_signin", { title: "Sign In" });
 };
+
 
 // Handle sign up data
 module.exports.create = async (req, res) => {
@@ -50,11 +58,11 @@ module.exports.create = async (req, res) => {
       `);
     }
 
-    // const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
       name: name,
       email: email,
-      password: password
+      password: hashedPassword
     });
 
     await newUser.save();

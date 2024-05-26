@@ -16,10 +16,10 @@ router.post("/create",userController.create);
 // Passport first authenticates with the "local" strategy.
 // If authentication fails, redirect to "/user/signin".
 // If successful, proceed to userController.createSession.
-router.post("/create-session", passport.authenticate("local", {
+router.post("/create-session", passport.authenticate("local", {  //passport.authenticate inbuild function
     failureRedirect: "/user/signin"
 }), userController.createSession);
 
-router.post("/sign-out",userController.signOut);
+router.get("/signout",userController.signOut);
 
 module.exports = router;

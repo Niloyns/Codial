@@ -1,9 +1,12 @@
-<link rel="stylesheet" href="/css/user.css">
+<link rel="stylesheet" href="/css/profile.css">
 
 <h1>
     <%=title%> page
 </h1>
+<p>
+    <%=user.name%>
+</p>
 
-<form action="/user/sign-out" method="post">
+<form action="/user/signout" method="get">
     <button type="submit">Sign Out</button>
 </form>
