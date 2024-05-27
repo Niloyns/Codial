@@ -49,7 +49,8 @@ app.use(session({
 
 // Passport middleware for authentication
 app.use(passport.initialize()); //It sets up Passport to work with the Express app.
-app.use(passport.session()); // passport use session and encrypted serelizing/decerilise data
+// app.use(passport.session()); // passport use session and encrypted serelizing/decerilise data
+app.use(passport.authenticate('session'));
 app.use(passport.setAuthenticatedUser);
 
 // Routes
