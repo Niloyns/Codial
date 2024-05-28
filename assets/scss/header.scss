@@ -1,0 +1,60 @@
+// assets/scss/header.scss
+
+.header {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 0;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .logo a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  .nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav li {
+    margin-left: 20px;
+  }
+
+  .nav a {
+    color: #fff;
+    text-decoration: none;
+    padding: 5px 10px;
+    transition: background-color 0.3s ease;
+  }
+
+  .nav a:hover {
+    background-color: #555;
+    border-radius: 5px;
+  }
+
+  .nav li {
+    display: flex;
+    align-items: center;
+    a,
+    span {
+      color: #fff;
+      padding: 5px 10px;
+    }
+  }
+}

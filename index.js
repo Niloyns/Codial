@@ -10,8 +10,18 @@ const router = require("./routes/router");
 const db = require("./config/mongoose");
 const passportLocal = require("./config/passport-local-strategy");
 const MongoStore = require("connect-mongo"); 
+const sassMiddleware = require("node-sass-middleware");
 
 const app = express();
+
+//sass middleware
+app.use(sassMiddleware({
+    src: "./assets/scss", // Source directory containing SCSS files
+    dest: "./assets/css", // Destination directory for compiled CSS files
+    debug: true, // Enable debug mode to log information about the compilation process in console log
+    outputStyle: "expanded", // Set the output style for the compiled CSS ('expanded' means the CSS is human-readable)
+    prefix: "/css" // URL prefix for serving the compiled CSS files
+}));
 
 // Middleware for parsing form data
 app.use(express.urlencoded({ extended: true }));
